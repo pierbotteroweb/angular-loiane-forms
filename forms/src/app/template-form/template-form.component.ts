@@ -13,9 +13,15 @@ export class TemplateFormComponent implements OnInit {
     cpf: ''
   }
 
+  emailControlValid:any
+  emailControlTouched:any
+
   onSubmit(form){
     console.log(form)
-    console.log(this.usuario)
+    // console.log(this.usuario)
+
+    this.emailControlValid=form.controls.email.valid
+    this.emailControlTouched=form.controls.email.touched
   }
 
   constructor() { }
