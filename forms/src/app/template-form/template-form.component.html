@@ -11,11 +11,11 @@
     <div class="col-sm-12">
       <input type="text" class="form-control" id="nome" placeholder="Nome" name="nome" [(ngModel)]="usuario.nome"
         #nome="ngModel" required>
-        <app-campo-control-erro [mostrarErro]="verifica(nome)" msgErro="Nome obrigatório"></app-campo-control-erro>
+      <app-campo-control-erro [mostrarErro]="verifica(nome)" msgErro="Nome obrigatório"></app-campo-control-erro>
     </div>
   </div>
 
-  <div class="form-group"  [ngClass]="aplicaCssErro(cpf)">
+  <div class="form-group" [ngClass]="aplicaCssErro(cpf)">
     <div class="col-sm-12">
       <label class="control-label" for="cpf">CPF ou CNPJ</label>
     </div>
@@ -28,7 +28,7 @@
       <span *ngIf="!cpf.valid &&cpf.touched" class="glyphicon glyphicon-remove form-control-feedback"
         aria-hidden="true"></span>
       <span *ngIf="!cpf.valid &&cpf.touched" id="cpf" class="sr-only">(error)</span>
-      <div *ngIf="!cpf.valid &&cpf.touched && cpf.errors.required" class="alert alert-danger" role='alert'>CPF ou CNPJ 
+      <div *ngIf="!cpf.valid &&cpf.touched && cpf.errors.required" class="alert alert-danger" role='alert'>CPF ou CNPJ
         obrigatório.</div>
       <div *ngIf="!cpf.valid &&cpf.touched && cpf.errors.pattern" class="alert alert-danger" role='alert'>Favor inserir
         CPF ou CNPJ válido.</div>
@@ -44,63 +44,67 @@
     </div>
 
     <div class="col-sm-12">
-      <input type="email" class="form-control" id="email" placeholder="nome@email.com" name="email" #email="ngModel" 
-      [(ngModel)]="usuario.email" required email>
+      <input type="email" class="form-control" id="email" placeholder="nome@email.com" name="email" #email="ngModel"
+        [(ngModel)]="usuario.email" required email>
       <div>{{email.className}}</div>
       <app-campo-control-erro [mostrarErro]="verifica(email)" msgErro="E-mail obrigatório"></app-campo-control-erro>
     </div>
   </div>
 
-  <div class="form-group"  [ngClass]="aplicaCssErro(cep)">
-    <div class="col-md-3">
-      <label for="cep" class="control-label">CEP</label>
-      <input type="cep" name="cep" ngModel class="form-control" required #cep="ngModel">
-      <app-campo-control-erro [mostrarErro]="verifica(cep)" msgErro="CEP obrigatório"></app-campo-control-erro>
-    </div>
-    <div class="col-md-3">
-      <label for="numero" class="control-label">Número</label>
-      <input type="numero" name="numero" ngModel class="form-control" required #numero="ngModel">
-      <app-campo-control-erro [mostrarErro]="verifica(numero)" msgErro="Número obrigatório"></app-campo-control-erro>
-    </div>
-    <div class="col-md-6">
-      <label for="complemento" class="control-label">Complemento</label>
-      <input type="complemento" name="complemento" ngModel class="form-control" #complemento="ngModel">
-    </div>
-  </div>
+  <div ngModelGroup="endereco">  
 
-
-  <div class="form-group" [ngClass]="aplicaCssErro(rua)">
-
-
-    <div class="col-sm-12">
-      <label class="control-label" for="rua">Rua</label>
+    <div class="form-group" [ngClass]="aplicaCssErro(cep)">
+      <div class="col-md-3">
+        <label for="cep" class="control-label">CEP</label>
+        <input type="cep" name="cep" ngModel class="form-control" required #cep="ngModel">
+        <app-campo-control-erro [mostrarErro]="verifica(cep)" msgErro="CEP obrigatório"></app-campo-control-erro>
+      </div>
+      <div class="col-md-3">
+        <label for="numero" class="control-label">Número</label>
+        <input type="numero" name="numero" ngModel class="form-control" required #numero="ngModel">
+        <app-campo-control-erro [mostrarErro]="verifica(numero)" msgErro="Número obrigatório"></app-campo-control-erro>
+      </div>
+      <div class="col-md-6">
+        <label for="complemento" class="control-label">Complemento</label>
+        <input type="complemento" name="complemento" ngModel class="form-control" #complemento="ngModel">
+      </div>
     </div>
 
-    <div class="col-sm-12">
-      <input type="text" class="form-control" id="rua" name="rua" [(ngModel)]="usuario.rua" #rua="ngModel" required
-        readonly>
+
+    <div class="form-group" [ngClass]="aplicaCssErro(rua)">
+
+
+      <div class="col-sm-12">
+        <label class="control-label" for="rua">Rua</label>
+      </div>
+
+      <div class="col-sm-12">
+        <input type="text" class="form-control" id="rua" name="rua" [(ngModel)]="usuario.rua" #rua="ngModel" required
+          readonly>
         <app-campo-control-erro [mostrarErro]="verifica(rua)" msgErro="Rua é obrigatório."></app-campo-control-erro>
+      </div>
     </div>
-  </div>
 
-  
 
-  <div class="form-group" [ngClass]="aplicaCssErro(bairro)">
-    <div class="col-md-5">
-      <label for="bairro" class="control-label">Bairro</label>
-      <input type="bairro" name="bairro" ngModel class="form-control" required #bairro="ngModel" readonly>
-      <app-campo-control-erro [mostrarErro]="verifica(bairro)" msgErro="Bairro é obrigatório."></app-campo-control-erro>
+
+    <div class="form-group" [ngClass]="aplicaCssErro(bairro)">
+      <div class="col-md-5">
+        <label for="bairro" class="control-label">Bairro</label>
+        <input type="bairro" name="bairro" ngModel class="form-control" required #bairro="ngModel" readonly>
+        <app-campo-control-erro [mostrarErro]="verifica(bairro)" msgErro="Bairro é obrigatório."></app-campo-control-erro>
+      </div>
+      <div class="col-md-4">
+        <label for="cidade" class="control-label">Cidade</label>
+        <input type="cidade" name="cidade" ngModel class="form-control" required #cidade="ngModel" readonly>
+        <app-campo-control-erro [mostrarErro]="verifica(cidade)" msgErro="Cidade é obrigatório."></app-campo-control-erro>
+      </div>
+      <div class="col-md-3">
+        <label for="estado" class="control-label">Estado</label>
+        <input type="estado" name="estado" ngModel class="form-control" required #estado="ngModel" readonly>
+        <app-campo-control-erro [mostrarErro]="verifica(estado)" msgErro="Estado é obrigatório."></app-campo-control-erro>
+      </div>
     </div>
-    <div class="col-md-4">
-      <label for="cidade" class="control-label">Cidade</label>
-      <input type="cidade" name="cidade" ngModel class="form-control" required #cidade="ngModel" readonly>
-      <app-campo-control-erro [mostrarErro]="verifica(cidade)" msgErro="Cidade é obrigatório."></app-campo-control-erro>
-    </div>
-    <div class="col-md-3">
-      <label for="estado" class="control-label">Estado</label>
-      <input type="estado" name="estado" ngModel class="form-control" required #estado="ngModel" readonly>
-      <app-campo-control-erro [mostrarErro]="verifica(estado)" msgErro="Estado é obrigatório."></app-campo-control-erro>
-    </div>
+
   </div>
 
   <div class="col-sm-12"><br>
