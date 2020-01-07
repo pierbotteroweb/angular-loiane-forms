@@ -24,6 +24,17 @@ export class TemplateFormComponent implements OnInit {
     this.emailControlTouched=form.controls.email.touched
   }
 
+  verifica(campo){
+    return !campo.valid &&campo.touched
+  }
+
+  aplicaCssErro(campo){
+    return {
+      'has-error':this.verifica(campo),
+      'has-feedback':this.verifica(campo)
+    }
+  }
+
   constructor() { }
 
   ngOnInit() {
