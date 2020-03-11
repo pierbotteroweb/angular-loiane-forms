@@ -58,7 +58,7 @@ export class TemplateFormComponent implements OnInit {
 // }
 // }
 
-  consultaCEP(valor){
+  consultaCEP(valor, formulario){
     //Nova variável "cep" somente com dígitos.
     var cep = valor.replace(/\D/g, '');
 
@@ -71,12 +71,11 @@ export class TemplateFormComponent implements OnInit {
         //Valida o formato do CEP.
         if(validacep.test(cep)) {
 
+          this.resetaDadosForm(formulario)
+
             this.http.get(`https://viacep.com.br/ws/${cep}/json/`)
             .pipe(map(dados=>dados.json()))
-            .subscribe(dados=>{
-              console.log(dados)
-            })
-          
+            .subscribe(dados=>this.populaDadosForm(dados, formulario))          
 
             //Preenche os campos com "..." enquanto consulta webservice.
             // document.getElementById('rua').value="...";
@@ -106,6 +105,48 @@ export class TemplateFormComponent implements OnInit {
         // limpa_formulário_cep();
     }
 };
+
+populaDadosForm(dados, formulario){
+  // formulario.setValue({
+  //     nome:formulario.value.nome,
+  //     email:formulario.value.email,
+  //     cpf:formulario.value.cpf,
+  //     endereco: {
+  //       rua: dados.logradouro,
+  //       cep: dados.cep,
+  //       numero: '',
+  //       complemento: dados.complemento,
+  //       bairro: dados.bairro,
+  //       cidade: dados.localidade,
+  //       estado: dados.uf
+  //     }
+  // })
+
+  formulario.form.patchValue({
+    endereco: {
+      rua: dados.logradouro,
+      cep: dados.cep,
+      numero: '',
+      complemento: dados.complemento,
+      bairro: dados.bairro,
+      cidade: dados.localidade,
+      estado: dados.uf
+    }
+  })
+}
+
+resetaDadosForm(formulario){
+
+  formulario.form.patchValue({
+    endereco: {
+      rua: null,
+      complemento: null,
+      bairro: null,
+      cidade: null,
+      estado: null
+    }
+  })
+}
 
   aplicaCssErro(campo){
     return {

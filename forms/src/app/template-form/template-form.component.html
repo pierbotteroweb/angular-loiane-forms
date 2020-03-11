@@ -10,7 +10,7 @@
 
     <div class="col-sm-12">
       <input type="text" class="form-control" id="nome" placeholder="Nome" name="nome" [(ngModel)]="usuario.nome"
-        #nome="ngModel" required>
+        #nome="ngModel" autocomplete="nocomplete" required>
       <app-campo-control-erro [mostrarErro]="verifica(nome)" msgErro="Nome obrigatório"></app-campo-control-erro>
     </div>
   </div>
@@ -22,7 +22,7 @@
 
     <div class="col-sm-12">
       <input type="text" class="form-control" id="cpf" placeholder="CPF ou CNPJ" name="cpf" [(ngModel)]="usuario.cpf"
-        required #cpf="ngModel"
+        autocomplete="nocomplete" required #cpf="ngModel"
         pattern="([0-9]{2}[\.]?[0-9]{3}[\.]?[0-9]{3}[\/]?[0-9]{4}[-]?[0-9]{2})|([0-9]{3}[\.]?[0-9]{3}[\.]?[0-9]{3}[-]?[0-9]{2})">
 
       <span *ngIf="!cpf.valid &&cpf.touched" class="glyphicon glyphicon-remove form-control-feedback"
@@ -45,7 +45,7 @@
 
     <div class="col-sm-12">
       <input type="email" class="form-control" id="email" placeholder="nome@email.com" name="email" #email="ngModel"
-        [(ngModel)]="usuario.email" required email>
+        [(ngModel)]="usuario.email" autocomplete="nocomplete" required email>
       <div>{{email.className}}</div>
       <app-campo-control-erro [mostrarErro]="verifica(email)" msgErro="E-mail obrigatório"></app-campo-control-erro>
     </div>
@@ -56,12 +56,12 @@
     <div class="form-group" [ngClass]="aplicaCssErro(cep)">
       <div class="col-md-3">
         <label for="cep" class="control-label">CEP</label>
-        <input type="cep" (blur)="consultaCEP($event.target.value)" name="cep" ngModel class="form-control" required #cep="ngModel">
+        <input type="cep" (blur)="consultaCEP($event.target.value, f)" name="cep" ngModel class="form-control" autocomplete="nocomplete" required #cep="ngModel">
         <app-campo-control-erro [mostrarErro]="verifica(cep)" msgErro="CEP obrigatório"></app-campo-control-erro>
       </div>
       <div class="col-md-3">
         <label for="numero" class="control-label">Número</label>
-        <input type="numero" name="numero" ngModel class="form-control" required #numero="ngModel">
+        <input type="numero" name="numero" ngModel class="form-control" autocomplete="nocomplete" required #numero="ngModel">
         <app-campo-control-erro [mostrarErro]="verifica(numero)" msgErro="Número obrigatório"></app-campo-control-erro>
       </div>
       <div class="col-md-6">
@@ -79,7 +79,7 @@
       </div>
 
       <div class="col-sm-12">
-        <input type="text" class="form-control" id="rua" name="rua" [(ngModel)]="usuario.rua" #rua="ngModel" required
+        <input type="text" class="form-control" id="rua" name="rua" ngModel #rua="ngModel" autocomplete="nocomplete" required
           readonly>
         <app-campo-control-erro [mostrarErro]="verifica(rua)" msgErro="Rua é obrigatório."></app-campo-control-erro>
       </div>
@@ -90,17 +90,17 @@
     <div class="form-group" [ngClass]="aplicaCssErro(bairro)">
       <div class="col-md-5">
         <label for="bairro" class="control-label">Bairro</label>
-        <input type="bairro" name="bairro" ngModel class="form-control" required #bairro="ngModel" readonly>
+        <input type="bairro" name="bairro" ngModel class="form-control" autocomplete="nocomplete" required #bairro="ngModel" readonly>
         <app-campo-control-erro [mostrarErro]="verifica(bairro)" msgErro="Bairro é obrigatório."></app-campo-control-erro>
       </div>
       <div class="col-md-4">
         <label for="cidade" class="control-label">Cidade</label>
-        <input type="cidade" name="cidade" ngModel class="form-control" required #cidade="ngModel" readonly>
+        <input type="cidade" name="cidade" ngModel class="form-control" autocomplete="nocomplete" required #cidade="ngModel" readonly>
         <app-campo-control-erro [mostrarErro]="verifica(cidade)" msgErro="Cidade é obrigatório."></app-campo-control-erro>
       </div>
       <div class="col-md-3">
         <label for="estado" class="control-label">Estado</label>
-        <input type="estado" name="estado" ngModel class="form-control" required #estado="ngModel" readonly>
+        <input type="estado" name="estado" ngModel class="form-control" autocomplete="nocomplete" required #estado="ngModel" readonly>
         <app-campo-control-erro [mostrarErro]="verifica(estado)" msgErro="Estado é obrigatório."></app-campo-control-erro>
       </div>
     </div>
