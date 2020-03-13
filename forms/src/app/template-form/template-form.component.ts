@@ -24,6 +24,10 @@ export class TemplateFormComponent implements OnInit {
     console.log(form)
     // console.log(this.usuario)
 
+    this.http.post('https://httpbin.org/post', JSON.stringify(form.value))
+    .pipe(map(dados=>dados))
+    .subscribe(dados=>console.log(dados))      
+
     this.emailControlValid=form.controls.email.valid
     this.emailControlTouched=form.controls.email.touched
   }
