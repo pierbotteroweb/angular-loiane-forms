@@ -46,7 +46,7 @@
     <div class="col-sm-12">
       <input type="email" class="form-control" id="email" placeholder="nome@email.com" name="email" #email="ngModel"
         [(ngModel)]="usuario.email" autocomplete="nocomplete" required email>
-      <div>{{email.className}}</div>
+      <!-- <div>{{email.className}}</div> -->
       <app-campo-control-erro [mostrarErro]="verifica(email)" msgErro="E-mail obrigatório"></app-campo-control-erro>
     </div>
   </div>
