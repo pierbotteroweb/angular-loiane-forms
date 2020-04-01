@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { DataFormComponent } from './data-form.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../shared/shared/shared.module';
+import { HttpModule } from '@angular/http';
 
 @NgModule({
   declarations: [
@@ -11,6 +12,7 @@ import { SharedModule } from '../shared/shared/shared.module';
   imports: [
     CommonModule,
     ReactiveFormsModule,
+    HttpModule,
     SharedModule
   ]
 })

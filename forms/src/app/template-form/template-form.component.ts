@@ -20,16 +20,19 @@ export class TemplateFormComponent implements OnInit {
   emailControlValid:any
   emailControlTouched:any
 
-  onSubmit(form){
-    console.log(form)
+  onSubmit(formurario){
+    console.log(formurario)
     // console.log(this.usuario)
 
-    this.http.post('https://httpbin.org/post', JSON.stringify(form.value))
+    this.http.post('https://httpbin.org/post', JSON.stringify(formurario.value))
     .pipe(map(dados=>dados))
-    .subscribe(dados=>console.log(dados))      
+    .subscribe(dados=>{
+      console.log(dados)
+      formurario.form.reset()
+    })
 
-    this.emailControlValid=form.controls.email.valid
-    this.emailControlTouched=form.controls.email.touched
+    this.emailControlValid=formurario.controls.email.valid
+    this.emailControlTouched=formurario.controls.email.touched
   }
 
   verifica(campo){
