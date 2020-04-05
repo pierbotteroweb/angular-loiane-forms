@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
+import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { Http } from "@angular/http";
 import { map } from "rxjs/operators";
 
@@ -23,15 +23,16 @@ export class DataFormComponent implements OnInit {
     // })
 
     this.formulario = this.formBuilder.group({
-      nome: [null],
-      email: [null]
+      _nome: [null,Validators.required],
+      _cpf: [null,[Validators.required,Validators.pattern("([0-9]{2}[\.]?[0-9]{3}[\.]?[0-9]{3}[\/]?[0-9]{4}[-]?[0-9]{2})|([0-9]{3}[\.]?[0-9]{3}[\.]?[0-9]{3}[-]?[0-9]{2})")]],
+      _email: [null,[Validators.required,Validators.email]]
     })
 
-
+    
   }
 
   onSubmit(){
-    console.log(this.formulario.value)
+    console.log("this.formulario",this.formulario)
     
     this.http.post('https://httpbin.org/post', JSON.stringify(this.formulario.value))
     .pipe(map(dados=>dados))
@@ -46,6 +47,37 @@ export class DataFormComponent implements OnInit {
 
   resetar(){
     this.formulario.reset()
+  }
+
+  verificaRequired(campo){
+    let campoRequerido = this.formulario.get(campo)
+    if(campoRequerido.errors&&campoRequerido.errors.required){
+      console.log('campoRequerido errors',campoRequerido.errors.required)
+      return campoRequerido.errors.required&&campoRequerido.touched
+    }
+  }
+
+  verificaEmailValido(){
+    let campoEmail = this.formulario.get('_email')
+    if(campoEmail.errors){
+      // console.log("campoEmail.errors['_email']",campoEmail.errors['_email'])
+      return campoEmail.errors['email']&& campoEmail.touched
+    }
+  }
+
+  verificaCpfValido(){
+    let campoCpf = this.formulario.get('_cpf')
+    if(campoCpf.errors){
+      // console.log("campoCpf.errors['_cpf']",campoCpf.errors['_cpf'])
+      return campoCpf.errors['pattern']&& campoCpf.touched
+    }
+  }
+
+  aplicaCssErro(campo){
+    return {
+      'has-error':this.verificaRequired(campo),
+      'has-feedback':this.verificaRequired(campo)
+    }
   }
 
 }
