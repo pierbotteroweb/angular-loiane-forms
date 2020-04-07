@@ -4,6 +4,7 @@ import { DataFormComponent } from './data-form.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../shared/shared/shared.module';
 import { HttpModule } from '@angular/http';
+import { DropdownService } from '../shared/services/dropdown.service';
 
 @NgModule({
   declarations: [
@@ -14,6 +15,7 @@ import { HttpModule } from '@angular/http';
     ReactiveFormsModule,
     HttpModule,
     SharedModule
-  ]
+  ],
+  providers: [ DropdownService]
 })
 export class DataFormModule { }
