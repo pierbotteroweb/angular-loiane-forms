@@ -34,10 +34,74 @@
       <input type="text" class="form-control" id="_cpf" 
       autocomplete="off"
       placeholder="000.000.000-00" formControlName="_cpf">
-      <app-campo-control-erro [mostrarErro]="verificaRequired('_email')" 
+      <app-campo-control-erro [mostrarErro]="verificaRequired('_cpf')" 
       msgErro="CPF obrigatório"></app-campo-control-erro>
       <app-campo-control-erro [mostrarErro]="verificaCpfValido()" 
       msgErro="CPF inválido"></app-campo-control-erro>
+    </div>
+  </div>
+
+
+  <!-- <div ngModelGroup="endereco">   -->
+    <div formGroupName="endereco">
+
+    <div class="form-group" [ngClass]="aplicaCssErro('endereco.cep')">
+      <div class="col-md-3">
+        <label for="cep" class="control-label">CEP</label>
+        <input type="cep"  formControlName="cep" class="form-control" autocomplete="nocomplete">
+        <app-campo-control-erro [mostrarErro]="verificaRequired('endereco.cep')" 
+        msgErro="CEP obrigatório"></app-campo-control-erro>
+        <app-campo-control-erro [mostrarErro]="verificaCepValido()" 
+        msgErro="CEP inválido"></app-campo-control-erro>
+      </div>
+      <div class="col-md-3">
+        <label for="numero" class="control-label">Número</label>
+        <input type="numero" formControlName="numero" class="form-control" autocomplete="nocomplete">
+        <app-campo-control-erro [mostrarErro]="verificaRequired('endereco.numero')" 
+        msgErro="Número obrigatório"></app-campo-control-erro>
+      </div>
+      <div class="col-md-6">
+        <label for="complemento" class="control-label">Complemento</label>
+        <input type="complemento" formControlName="complemento" class="form-control">
+      </div>
+    </div>
+
+
+    <div class="form-group" [ngClass]="aplicaCssErro('endereco.rua')">
+
+
+      <div class="col-sm-12">
+        <label class="control-label" for="rua">Rua</label>
+      </div>
+
+      <div class="col-sm-12">
+        <input type="text" class="form-control" id="rua" formControlName="rua" autocomplete="nocomplete">
+        <app-campo-control-erro [mostrarErro]="verificaRequired('endereco.rua')" 
+        msgErro="Rua é obrigatório."></app-campo-control-erro>
+      </div>
+    </div>
+
+
+
+    <div class="form-group" [ngClass]="aplicaCssErro('endereco.bairro')">
+      <div class="col-md-5">
+        <label for="bairro" class="control-label">Bairro</label>
+        <input type="bairro" formControlName="bairro" class="form-control" autocomplete="nocomplete">
+        <app-campo-control-erro [mostrarErro]="verificaRequired('endereco.bairro')" 
+        msgErro="Bairro é obrigatório."></app-campo-control-erro>
+      </div>
+      <div class="col-md-4">
+        <label for="cidade" class="control-label">Cidade</label>
+        <input type="cidade" formControlName="cidade" class="form-control" autocomplete="nocomplete">
+        <app-campo-control-erro [mostrarErro]="verificaRequired('endereco.cidade')" 
+        msgErro="Cidade é obrigatório."></app-campo-control-erro>
+      </div>
+      <div class="col-md-3">
+        <label for="estado" class="control-label">Estado</label>
+        <input type="estado" formControlName="estado" class="form-control" autocomplete="nocomplete">
+        <app-campo-control-erro [mostrarErro]="verificaRequired('endereco.estado')" 
+        msgErro="Estado é obrigatório."></app-campo-control-erro>
+      </div>
     </div>
   </div>
 
