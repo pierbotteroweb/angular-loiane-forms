@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Http } from "@angular/http";
 import { map } from "rxjs/operators";
+import { ConsultaCepService } from '../shared/services/consulta-cep.service';
 
 @Component({
   selector: 'app-template-form',
@@ -9,7 +10,9 @@ import { map } from "rxjs/operators";
 })
 export class TemplateFormComponent implements OnInit {
 
-  constructor(private http: Http) { }
+  constructor(
+    private http: Http,
+    private cepService: ConsultaCepService) { }
 
   usuario: any = {
     nome: null,
@@ -69,47 +72,11 @@ export class TemplateFormComponent implements OnInit {
     //Nova variável "cep" somente com dígitos.
     var cep = valor.replace(/\D/g, '');
 
-    //Verifica se campo cep possui valor informado.
-    if (cep != "") {
-
-        //Expressão regular para validar o CEP.
-        var validacep = /^[0-9]{8}$/;
-
-        //Valida o formato do CEP.
-        if(validacep.test(cep)) {
-
-          this.resetaDadosForm(formulario)
-
-            this.http.get(`https://viacep.com.br/ws/${cep}/json/`)
-            .pipe(map(dados=>dados.json()))
-            .subscribe(dados=>this.populaDadosForm(dados, formulario))          
-
-            //Preenche os campos com "..." enquanto consulta webservice.
-            // document.getElementById('rua').value="...";
-            // document.getElementById('bairro').value="...";
-            // document.getElementById('cidade').value="...";
-            // document.getElementById('uf').value="...";
-            // document.getElementById('ibge').value="...";
-
-            //Cria um elemento javascript.
-            // var script = document.createElement('script');
-
-            //Sincroniza com o callback.
-            // script.src = 'https://viacep.com.br/ws/'+ cep + '/json/?callback=meu_callback';
-
-            //Insere script no documento e carrega o conteúdo.
-            // document.body.appendChild(script);
-
-        } //end if.
-        else {
-            //cep é inválido.
-            // limpa_formulário_cep();
-            alert("Formato de CEP inválido.");
-        }
-    } //end if.
-    else {
-        //cep sem valor, limpa formulário.
-        // limpa_formulário_cep();
+    
+    if (cep != null&&cep != "") {
+      this.cepService.consultaCEP(cep)
+      .pipe(map(dados=>dados.json()))
+      .subscribe(dados=>this.populaDadosForm(dados, formulario))
     }
 };
 

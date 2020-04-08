@@ -4,6 +4,7 @@ import { Http } from "@angular/http";
 import { map } from "rxjs/operators";
 import { DropdownService } from '../shared/services/dropdown.service';
 import { EstadoBr } from '../shared/models/estado-br';
+import { ConsultaCepService } from '../shared/services/consulta-cep.service';
 
 @Component({
   selector: 'app-data-form',
@@ -17,7 +18,8 @@ export class DataFormComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder,
               private http: Http,
-              private dropdownService: DropdownService) { }
+              private dropdownService: DropdownService,
+              private cepService: ConsultaCepService) { }
 
   ngOnInit() {
     this.dropdownService.getEstadosBr()
@@ -113,52 +115,16 @@ export class DataFormComponent implements OnInit {
   }
 
 
-  consultaCEP(){
+consultaCEP(){
     //Nova variável "cep" somente com dígitos.
 
     var cep = this.formulario.get('endereco.cep').value
 
     //Verifica se campo cep possui valor informado.
-    if (cep != "") {
-
-        //Expressão regular para validar o CEP.
-        var validacep = /^[0-9]{8}$/;
-
-        //Valida o formato do CEP.
-        if(validacep.test(cep)) {
-
-          this.resetaDadosForm()
-
-            this.http.get(`https://viacep.com.br/ws/${cep}/json/`)
-            .pipe(map(dados=>dados.json()))
-            .subscribe(dados=>this.populaDadosForm(dados))          
-
-            //Preenche os campos com "..." enquanto consulta webservice.
-            // document.getElementById('rua').value="...";
-            // document.getElementById('bairro').value="...";
-            // document.getElementById('cidade').value="...";
-            // document.getElementById('uf').value="...";
-            // document.getElementById('ibge').value="...";
-
-            //Cria um elemento javascript.
-            // var script = document.createElement('script');
-
-            //Sincroniza com o callback.
-            // script.src = 'https://viacep.com.br/ws/'+ cep + '/json/?callback=meu_callback';
-
-            //Insere script no documento e carrega o conteúdo.
-            // document.body.appendChild(script);
-
-        } //end if.
-        else {
-            //cep é inválido.
-            // limpa_formulário_cep();
-            alert("Formato de CEP inválido.");
-        }
-    } //end if.
-    else {
-        //cep sem valor, limpa formulário.
-        // limpa_formulário_cep();
+    if (cep != null&&cep != "") {
+      this.cepService.consultaCEP(cep)
+      .pipe(map(dados=>dados.json()))
+      .subscribe(dados=>this.populaDadosForm(dados))
     }
 };
 
