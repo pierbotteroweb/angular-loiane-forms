@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { Http } from "@angular/http";
-import { map } from "rxjs/operators";
 import { DropdownService } from '../shared/services/dropdown.service';
 import { EstadoBr } from '../shared/models/estado-br';
 import { ConsultaCepService } from '../shared/services/consulta-cep.service';
 import { Observable } from 'rxjs';
+import { of } from 'rxjs';
+import { map, switchMap, catchError, mergeMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-data-form',
