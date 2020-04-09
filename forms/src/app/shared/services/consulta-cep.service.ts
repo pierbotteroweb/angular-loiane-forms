@@ -25,6 +25,6 @@ export class ConsultaCepService {
         }
     }
 
-    return of({})
+    return of()
 };
 }

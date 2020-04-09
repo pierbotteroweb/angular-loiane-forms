@@ -16,6 +16,7 @@ export class DataFormComponent implements OnInit {
 
   formulario: FormGroup
   estados: Observable <EstadoBr[]>
+  cargos:any
 
   constructor(private formBuilder: FormBuilder,
               private http: Http,
@@ -25,6 +26,7 @@ export class DataFormComponent implements OnInit {
   ngOnInit() {
 
     this.estados = this.dropdownService.getEstadosBr()
+    this.cargos = this.dropdownService.getCargos()
 
 
     // this.dropdownService.getEstadosBr()
@@ -50,7 +52,8 @@ export class DataFormComponent implements OnInit {
         bairro: [null,Validators.required],
         cidade: [null,Validators.required],
         estado: [null,Validators.required]
-      })
+      }),
+      cargo: [null]
     })
 
     
@@ -120,70 +123,77 @@ export class DataFormComponent implements OnInit {
   }
 
 
-consultaCEP(){
-    //Nova variável "cep" somente com dígitos.
+  consultaCEP(){
+      //Nova variável "cep" somente com dígitos.
 
-    var cep = this.formulario.get('endereco.cep').value
+      var cep = this.formulario.get('endereco.cep').value
 
-    //Verifica se campo cep possui valor informado.
-    if (cep != null&&cep != "") {
-      this.cepService.consultaCEP(cep)
-      .pipe(map(dados=>dados.json()))
-      .subscribe(dados=>this.populaDadosForm(dados))
-    }
-};
+      //Verifica se campo cep possui valor informado.
+      if (cep != null&&cep != "") {
+        this.cepService.consultaCEP(cep)
+        .pipe(map(dados=>dados.json()))
+        .subscribe(dados=>this.populaDadosForm(dados))
+      }
+  };
 
-populaDadosForm(dados){
-  // formulario.setValue({
-  //     nome:formulario.value.nome,
-  //     email:formulario.value.email,
-  //     cpf:formulario.value.cpf,
-  //     endereco: {
-  //       rua: dados.logradouro,
-  //       cep: dados.cep,
-  //       numero: '',
-  //       complemento: dados.complemento,
-  //       bairro: dados.bairro,
-  //       cidade: dados.localidade,
-  //       estado: dados.uf
-  //     }
-  // })
+  populaDadosForm(dados){
+    // formulario.setValue({
+    //     nome:formulario.value.nome,
+    //     email:formulario.value.email,
+    //     cpf:formulario.value.cpf,
+    //     endereco: {
+    //       rua: dados.logradouro,
+    //       cep: dados.cep,
+    //       numero: '',
+    //       complemento: dados.complemento,
+    //       bairro: dados.bairro,
+    //       cidade: dados.localidade,
+    //       estado: dados.uf
+    //     }
+    // })
 
-  this.formulario.patchValue({
-    endereco: {
-      rua: dados.logradouro,
-      numero: '',
-      complemento: dados.complemento,
-      bairro: dados.bairro,
-      cidade: dados.localidade,
-      estado: dados.uf
-    }
-  })
+    this.formulario.patchValue({
+      endereco: {
+        rua: dados.logradouro,
+        numero: '',
+        complemento: dados.complemento,
+        bairro: dados.bairro,
+        cidade: dados.localidade,
+        estado: dados.uf
+      }
+    })
 
-  this.formulario.get('_nome').setValue("Pier - Só pra mostrar que dá pra usar setValue pra um control especifico do form")
-}
-
-
-resetaDadosForm(){
-
-  this.formulario.patchValue({
-    endereco: {
-      rua: null,
-      complemento: null,
-      bairro: null,
-      cidade: null,
-      estado: null
-    }
-  })
-}
+    this.formulario.get('_nome').setValue("Pier - Só pra mostrar que dá pra usar setValue pra um control especifico do form")
+  }
 
 
+  resetaDadosForm(){
+    this.formulario.patchValue({
+      endereco: {
+        rua: null,
+        complemento: null,
+        bairro: null,
+        cidade: null,
+        estado: null
+      }
+    })
+  }
 
   aplicaCssErro(campo){
     return {
       'has-error':this.verificaRequired(campo),
       'has-feedback':this.verificaRequired(campo)
     }
+  }
+
+  setarCargo(){
+    let cargo = {nome: 'Dev', nivel: 'Pleno', desc: 'Dev Pl'}
+    this.formulario.get('cargo').setValue(cargo)
+  }
+
+  compararCargos(obj1, obj2){
+    return obj1 && obj2 ? (obj1.nome === obj2.nome && obj1.nivel === obj2.nivel):obj1 === obj2
+
   }
 
 }

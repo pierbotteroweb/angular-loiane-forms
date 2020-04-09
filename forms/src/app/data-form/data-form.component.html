@@ -115,9 +115,20 @@
     </div>
   </div>
 
+  <div class="form-group">
+    <div class="col-md-3">
+      <label for="cargo" class="control-label">Cargo</label>
+      <select formControlName="cargo" class="form-control" 
+      autocomplete="nocomplete" [compareWith]="compararCargos">
+      <option *ngFor="let cargo of cargos" [ngValue]="cargo" >{{cargo.desc}}</option>    
+    </select>
+    </div>
+  </div>
+
   <div class="col-sm-12"><br>
     <button type="submit" class="btn btn-primary">Submit</button>
     <button type="button" class="btn" (click)="resetar()">Cancelar</button>
+    <button type="button" class="btn" (click)="setarCargo()">Cargo</button>
     <app-form-debug [form]="formulario"></app-form-debug>
   </div>
 </form> 
