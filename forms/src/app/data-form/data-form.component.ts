@@ -20,6 +20,7 @@ export class DataFormComponent implements OnInit {
   cargos:any[]
   tecnologias: any[]
   newsletterOp: any[]
+  frameworks:any= ['Angular', 'React', 'Vue', 'Sencha']
 
   constructor(private formBuilder: FormBuilder,
               private http: Http,
@@ -60,16 +61,44 @@ export class DataFormComponent implements OnInit {
       }),
       cargo: [null],
       tecnologias: [null],
-      newsletter: ['s']
+      newsletter: ['s'],
+      termos: [null, Validators.pattern('true')],
+      frameworks: this.buildFrameworks()
     })
 
     
   }
 
+  buildFrameworks(){
+    
+    let values = this.frameworks.map(v=> new FormControl(false))
+    return this.formBuilder.array(values)
+
+    // this.formBuilder.array( [
+    //   new FormControl(false),
+    //   new FormControl(false),
+    //   new FormControl(false),
+    //   new FormControl(false)
+    // ])
+
+  }
+
   onSubmit(){
     console.log("this.formulario",this.formulario)
+
+    let valueSubmit = Object.assign({}, this.formulario.value);
+    console.log('valueSubmit',valueSubmit)
+
+    valueSubmit = Object.assign(valueSubmit,{
+      frameworks: valueSubmit.frameworks
+      .map((v,i)=> v? this.frameworks[i]:null)
+      .filter(v => v!==null)
+    })
+
+
+
     if(this.formulario.valid){        
-      this.http.post('https://httpbin.org/post', JSON.stringify(this.formulario.value))
+      this.http.post('https://httpbin.org/post', JSON.stringify(valueSubmit))
       .pipe(map(dados=>dados))
       .subscribe(dados=>{
         console.log(dados)
@@ -118,6 +147,14 @@ export class DataFormComponent implements OnInit {
     if(campoCpf.errors){
       // console.log("campoCpf.errors['_cpf']",campoCpf.errors['_cpf'])
       return campoCpf.errors['pattern']&& campoCpf.touched
+    }
+  }
+
+  verificaChecked(){
+    let campoTermos = this.formulario.get('termos')
+    if(campoTermos.errors){
+      // console.log("campoTermos.errors['_cpf']",campoTermos.errors['_cpf'])
+      return campoTermos.errors['pattern']&& campoTermos.touched
     }
   }
 

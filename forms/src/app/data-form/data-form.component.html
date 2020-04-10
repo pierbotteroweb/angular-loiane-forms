@@ -116,21 +116,21 @@
   </div>
 
   <div class="form-group">
-    <div class="col-md-3" ngClass="aplicaCssErro('cargo')">
+    <div class="col-md-3" [ngClass]="aplicaCssErro('cargo')">
       <label for="cargo" class="control-label">Cargo</label>
       <select formControlName="cargo" class="form-control" 
       autocomplete="nocomplete" [compareWith]="compararCargos">
       <option *ngFor="let cargo of cargos" [ngValue]="cargo" >{{cargo.desc}}</option>    
     </select>
     </div>
-    <div class="col-md-3" ngClass="aplicaCssErro('tecnologias')">
+    <div class="col-md-3" [ngClass]="aplicaCssErro('tecnologias')">
       <label for="tecnologias" class="control-label">Tecnologias</label>
       <select multiple formControlName="tecnologias" class="form-control" 
       autocomplete="nocomplete">
       <option *ngFor="let tecnologia of tecnologias" [value]="tecnologia.nome" >{{tecnologia.desc}}</option>    
     </select>
     </div>
-    <div class="col-md-3" ngClass="aplicaCssErro('newsletter')">
+    <div class="col-md-3" [ngClass]="aplicaCssErro('newsletter')">
       <label for="newsletter" class="control-label">Newsletter</label>
       <div id="newsletter" class="row">
         <div class="col-sm-4" *ngFor="let item of newsletterOp">
@@ -140,6 +140,34 @@
         </div>
       </div>
     </div>
+
+    <div class="form-group">
+      <div class="col-md-3" [ngClass]="aplicaCssErro('termos')">
+        <div class="checkbox">
+          <label class="checkbox-inline">
+            <input type="checkbox" formControlName="termos"> Aceito os termos.
+          </label>
+          <app-campo-control-erro [mostrarErro]="verificaChecked()" 
+          msgErro="Por favor, aceite os termos."></app-campo-control-erro>
+        </div>
+      </div>
+
+
+      
+      <div class="col-md-3" [ngClass]="aplicaCssErro('frameworks')">
+        <label for="frameworks">Frameworks</label>
+        <div id="frameworks" class="row">
+          <div class="checkbox col-sm-4" formArrayName="frameworks"
+          *ngFor="let item of formulario.get('frameworks')['controls'];let i = index">
+            <label class="checkbox-inline">
+              <input type="checkbox" [formControlName]="i" > {{frameworks[i]}}
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
   </div>
 
   <div class="col-sm-12"><br>
