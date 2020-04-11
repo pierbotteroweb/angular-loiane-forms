@@ -48,10 +48,12 @@ export class DataFormComponent implements OnInit {
     // })
 
     this.formulario = this.formBuilder.group({
-      _nome: [null,Validators.required],
-      // _cpf: [null,[Validators.required,Validators.pattern("([0-9]{2}[\.]?[0-9]{3}[\.]?[0-9]{3}[\/]?[0-9]{4}[-]?[0-9]{2})|([0-9]{3}[\.]?[0-9]{3}[\.]?[0-9]{3}[-]?[0-9]{2})")]],
-      _cpf: [null,[Validators.required,FormValidations.cpfValidator]],
-      _email: [null,[Validators.required,Validators.email]],
+      nome: [null,Validators.required],
+      // cpf: [null,[Validators.required,Validators.pattern("([0-9]{2}[\.]?[0-9]{3}[\.]?[0-9]{3}[\/]?[0-9]{4}[-]?[0-9]{2})|([0-9]{3}[\.]?[0-9]{3}[\.]?[0-9]{3}[-]?[0-9]{2})")]],
+      cpf: [null,[Validators.required,FormValidations.cpfValidator]],
+      email: [null,[Validators.required,Validators.email]],
+      // confirmaemail: [null,[Validators.required,Validators.email]],
+      confirmaemail: [null,[Validators.required,FormValidations.equalsTo('email')]],
       endereco: this.formBuilder.group({
         // cep: [null,[Validators.required,Validators.pattern(/^[0-9]{8}$/)]],
         cep: [null,[Validators.required,FormValidations.cepValidator]],
@@ -155,17 +157,17 @@ export class DataFormComponent implements OnInit {
   }
 
   verificaEmailValido(){
-    let campoEmail = this.formulario.get('_email')
+    let campoEmail = this.formulario.get('email')
     if(campoEmail.errors){
-      // console.log("campoEmail.errors['_email']",campoEmail.errors['_email'])
+      // console.log("campoEmail.errors['email']",campoEmail.errors['email'])
       return campoEmail.errors['email']&& campoEmail.touched
     }
   }
 
   verificaCpfValido(){
-    let campoCpf = this.formulario.get('_cpf')
+    let campoCpf = this.formulario.get('cpf')
     if(campoCpf.errors){
-      // console.log("campoCpf.errors['_cpf']",campoCpf.errors['_cpf'])
+      // console.log("campoCpf.errors['cpf']",campoCpf.errors['cpf'])
       return campoCpf.errors['pattern']&& campoCpf.touched
     }
   }
@@ -173,7 +175,7 @@ export class DataFormComponent implements OnInit {
   verificaChecked(){
     let campoTermos = this.formulario.get('termos')
     if(campoTermos.errors){
-      // console.log("campoTermos.errors['_cpf']",campoTermos.errors['_cpf'])
+      // console.log("campoTermos.errors['cpf']",campoTermos.errors['cpf'])
       return campoTermos.errors['pattern']&& campoTermos.touched
     }
   }
@@ -181,7 +183,7 @@ export class DataFormComponent implements OnInit {
   verificaCepValido(){
     let campoCep = this.formulario.get('endereco.cep')
     if(campoCep.errors){
-      // console.log("campoCep.errors['_cpf']",campoCep.errors['_cpf'])
+      // console.log("campoCep.errors['cpf']",campoCep.errors['cpf'])
       return campoCep.errors['pattern']&& campoCep.touched
     }
   }
@@ -227,7 +229,7 @@ export class DataFormComponent implements OnInit {
       }
     })
 
-    this.formulario.get('_nome').setValue("Pier - Só pra mostrar que dá pra usar setValue pra um control especifico do form")
+    this.formulario.get('nome').setValue("Pier - Só pra mostrar que dá pra usar setValue pra um control especifico do form")
   }
 
 

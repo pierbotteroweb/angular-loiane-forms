@@ -1,46 +1,57 @@
 <form class="form-horizontal" [formGroup]="formulario" (ngSubmit)='onSubmit()' autocomplete="off">
 
 
-  <div class="form-group" [ngClass]="aplicaCssErro('_nome')">
+  <div class="form-group" [ngClass]="aplicaCssErro('nome')">
 
 
     <div class="col-sm-12">
-      <label class="control-label" for="_nome">Nome</label>
+      <label class="control-label" for="nome">Nome</label>
     </div>
 
     <div class="col-sm-12">
-      <input type="text" class="form-control" id="_nome" 
+      <input type="text" class="form-control" id="nome" 
       autocomplete="off"
-      placeholder="Nome" formControlName="_nome" >
-      <app-campo-control-erro [mostrarErro]="verificaRequired('_nome')" 
+      placeholder="Nome" formControlName="nome" >
+      <app-campo-control-erro [mostrarErro]="verificaRequired('nome')" 
       msgErro="Nome obrigatório"></app-campo-control-erro>
     </div>
   </div>
 
   <div class="form-group">
     <div class="col-sm-6">
-      <label class="control-label" for="_email">Email</label>
-      <input type="email" class="form-control" id="_email" 
+      <label class="control-label" for="email">Email</label>
+      <input type="email" class="form-control" id="email" 
       autocomplete="off"
-      placeholder="nome@email.com" formControlName="_email">
-      <app-campo-control-erro [mostrarErro]="verificaRequired('_email')" 
+      placeholder="nome@email.com" formControlName="email">
+      <app-campo-control-erro [mostrarErro]="verificaRequired('email')" 
       msgErro="E-mail obrigatório"></app-campo-control-erro>
       <app-campo-control-erro [mostrarErro]="verificaEmailValido()" 
       msgErro="E-mail inválido"></app-campo-control-erro>
     </div>
 
     <div class="col-sm-6">
-      <label class="control-label" for="_cpf">CPF</label>
-      <input type="text" class="form-control" id="_cpf" 
+      <label class="control-label" for="cpf">CPF</label>
+      <input type="text" class="form-control" id="cpf" 
       autocomplete="off"
-      placeholder="000.000.000-00" formControlName="_cpf">
-      <app-campo-control-erro [mostrarErro]="verificaRequired('_cpf')" 
+      placeholder="000.000.000-00" formControlName="cpf">
+      <app-campo-control-erro [mostrarErro]="verificaRequired('cpf')" 
       msgErro="CPF obrigatório"></app-campo-control-erro>
       <!-- <app-campo-control-erro [mostrarErro]="verificaCpfValido()" 
       msgErro="CPF inválido"></app-campo-control-erro> -->
-      <app-campo-control-erro [mostrarErro]="formulario.get('_cpf').hasError('cpfInvalido')" 
+      <app-campo-control-erro [mostrarErro]="formulario.get('cpf').hasError('cpfInvalido')" 
         msgErro="CPF inválido"></app-campo-control-erro>
       </div>
+  </div>
+
+  <div class="form-group">
+    <div class="col-sm-6">
+      <label class="control-label" for="confirmaemail">Confirmar Email</label>
+      <input type="confirmaemail" class="form-control" id="confirmaemail" 
+      autocomplete="off"
+      placeholder="nome@email.com" formControlName="confirmaemail">
+      <app-campo-control-erro [mostrarErro]="formulario.get('confirmaemail').hasError('equalsTo')" 
+      msgErro="E-mails não são iguais"></app-campo-control-erro>
+    </div>
   </div>
 
 

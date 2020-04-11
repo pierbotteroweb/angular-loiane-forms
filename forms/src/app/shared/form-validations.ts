@@ -1,4 +1,4 @@
-import { FormArray, FormControl } from '@angular/forms'
+import { FormArray, FormControl, FormGroup } from '@angular/forms'
 
 export class FormValidations{
     static requiredMinCheckbox(min=1){
@@ -33,5 +33,33 @@ export class FormValidations{
         return validacpf.test(cpf) ? null :{ cpfInvalido : true}
       }
       return null
+    }
+
+    static equalsTo(otherField: string){
+      const validator = (formControl: FormControl) =>{
+        if(otherField==null){
+          throw new Error("É necessário informar um campo.")
+        }
+
+        if(!formControl.root|| !(<FormGroup>formControl.root).get(otherField)){
+          return null
+        }
+
+        console.log((<FormGroup>formControl.root).get(otherField))
+
+        const field = (<FormGroup>formControl.root).get(otherField)
+
+        if(!field){
+          throw new Error("É necessário informar um campo válido")
+        }
+
+        if(field.value !== formControl.value){
+          return { equalsTo : otherField}
+        }
+
+        return null
+      }
+
+      return validator
     }
 }
