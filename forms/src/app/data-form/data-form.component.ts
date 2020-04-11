@@ -49,10 +49,12 @@ export class DataFormComponent implements OnInit {
 
     this.formulario = this.formBuilder.group({
       _nome: [null,Validators.required],
-      _cpf: [null,[Validators.required,Validators.pattern("([0-9]{2}[\.]?[0-9]{3}[\.]?[0-9]{3}[\/]?[0-9]{4}[-]?[0-9]{2})|([0-9]{3}[\.]?[0-9]{3}[\.]?[0-9]{3}[-]?[0-9]{2})")]],
+      // _cpf: [null,[Validators.required,Validators.pattern("([0-9]{2}[\.]?[0-9]{3}[\.]?[0-9]{3}[\/]?[0-9]{4}[-]?[0-9]{2})|([0-9]{3}[\.]?[0-9]{3}[\.]?[0-9]{3}[-]?[0-9]{2})")]],
+      _cpf: [null,[Validators.required,FormValidations.cpfValidator]],
       _email: [null,[Validators.required,Validators.email]],
       endereco: this.formBuilder.group({
-        cep: [null,[Validators.required,Validators.pattern(/^[0-9]{8}$/)]],
+        // cep: [null,[Validators.required,Validators.pattern(/^[0-9]{8}$/)]],
+        cep: [null,[Validators.required,FormValidations.cepValidator]],
         numero: [null,Validators.required],
         complemento: [null],
         rua: [null,Validators.required],

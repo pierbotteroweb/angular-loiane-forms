@@ -36,9 +36,11 @@
       placeholder="000.000.000-00" formControlName="_cpf">
       <app-campo-control-erro [mostrarErro]="verificaRequired('_cpf')" 
       msgErro="CPF obrigatório"></app-campo-control-erro>
-      <app-campo-control-erro [mostrarErro]="verificaCpfValido()" 
-      msgErro="CPF inválido"></app-campo-control-erro>
-    </div>
+      <!-- <app-campo-control-erro [mostrarErro]="verificaCpfValido()" 
+      msgErro="CPF inválido"></app-campo-control-erro> -->
+      <app-campo-control-erro [mostrarErro]="formulario.get('_cpf').hasError('cpfInvalido')" 
+        msgErro="CPF inválido"></app-campo-control-erro>
+      </div>
   </div>
 
 
@@ -53,7 +55,9 @@
         autocomplete="nocomplete">
         <app-campo-control-erro [mostrarErro]="verificaRequired('endereco.cep')" 
         msgErro="CEP obrigatório"></app-campo-control-erro>
-        <app-campo-control-erro [mostrarErro]="verificaCepValido()" 
+        <!-- <app-campo-control-erro [mostrarErro]="verificaCepValido()" 
+        msgErro="CEP inválido"></app-campo-control-erro> -->
+        <app-campo-control-erro [mostrarErro]="formulario.get('endereco.cep').hasError('cepInvalido')" 
         msgErro="CEP inválido"></app-campo-control-erro>
       </div>
       <div class="col-md-3">
@@ -164,7 +168,7 @@
             </label>
           </div>
         </div>
-        <app-campo-control-erro [mostrarErro]="!formulario.get('frameworks').valid" 
+        <app-campo-control-erro [mostrarErro]="!formulario.get('frameworks').valid&&formulario.get('frameworks').touched" 
         msgErro="Selecione 1 opção."></app-campo-control-erro>
       </div>
     </div>
