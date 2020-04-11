@@ -12,8 +12,8 @@
       <input type="text" class="form-control" id="nome" 
       autocomplete="off"
       placeholder="Nome" formControlName="nome" >
-      <app-campo-control-erro [mostrarErro]="verificaRequired('nome')" 
-      msgErro="Nome obrigatório"></app-campo-control-erro>
+      <app-error-msg [control]="formulario.get('nome')" label="Nome"
+      ></app-error-msg>
     </div>
   </div>
 
@@ -68,7 +68,6 @@
       <div class="col-md-3">
         <label for="cep" class="control-label">CEP</label>
         <input type="cep"  formControlName="cep" class="form-control" 
-        (blur)="consultaCEP()"
         autocomplete="nocomplete">
         <app-campo-control-erro [mostrarErro]="verificaRequired('endereco.cep')" 
         msgErro="CEP obrigatório"></app-campo-control-erro>

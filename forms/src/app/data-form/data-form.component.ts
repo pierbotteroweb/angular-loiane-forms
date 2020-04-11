@@ -4,11 +4,12 @@ import { Http } from "@angular/http";
 import { DropdownService } from '../shared/services/dropdown.service';
 import { EstadoBr } from '../shared/models/estado-br';
 import { ConsultaCepService } from '../shared/services/consulta-cep.service';
-import { Observable } from 'rxjs';
+import { Observable, empty } from 'rxjs';
 import { of } from 'rxjs';
-import { map, switchMap, catchError, mergeMap } from 'rxjs/operators';
+import { map, switchMap, catchError, mergeMap, tap, distinctUntilChanged } from 'rxjs/operators';
 import { FormValidations } from '../shared/form-validations';
 import { VerificaEmailService } from './services/verifica-email.service';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'app-data-form',
@@ -53,7 +54,7 @@ export class DataFormComponent implements OnInit {
     // })
 
     this.formulario = this.formBuilder.group({
-      nome: [null,Validators.required],
+      nome: [null,[Validators.required,Validators.minLength(3),Validators.maxLength(50)]],
       // cpf: [null,[Validators.required,Validators.pattern("([0-9]{2}[\.]?[0-9]{3}[\.]?[0-9]{3}[\/]?[0-9]{4}[-]?[0-9]{2})|([0-9]{3}[\.]?[0-9]{3}[\.]?[0-9]{3}[-]?[0-9]{2})")]],
       cpf: [null,[Validators.required,FormValidations.cpfValidator]],
       email: [null,[Validators.required,Validators.email],this.validarEmail.bind(this)],
@@ -75,6 +76,31 @@ export class DataFormComponent implements OnInit {
       termos: [null, Validators.pattern('true')],
       frameworks: this.buildFrameworks()
     })
+
+
+    // this.formulario.get('endereco.cep').statusChanges
+    // .pipe(
+    //   distinctUntilChanged(),
+    //   tap(status => console.log('status CEP',status))
+    // )
+    // .subscribe(status => {
+    //   if(status ==='VALID'){
+    //     this.cepService.consultaCEP(this.formulario.get('endereco.cep').value)
+    //     .subscribe(dados => this.populaDadosForm(JSON.parse(dados['_body'])))
+    //   }
+    // })
+
+
+    this.formulario.get('endereco.cep').statusChanges
+    .pipe(
+      distinctUntilChanged(),
+      tap(status => console.log('status CEP',status)),
+      switchMap(status => status ==='VALID' ?
+        this.cepService.consultaCEP(this.formulario.get('endereco.cep').value)
+        : empty()
+      )
+    )
+    .subscribe(dados => dados ? this.populaDadosForm(dados):{})
 
     
   }
@@ -194,18 +220,18 @@ export class DataFormComponent implements OnInit {
   }
 
 
-  consultaCEP(){
-      //Nova variável "cep" somente com dígitos.
+  // consultaCEP(){
+  //     //Nova variável "cep" somente com dígitos.
 
-      var cep = this.formulario.get('endereco.cep').value
+  //     var cep = this.formulario.get('endereco.cep').value
 
-      //Verifica se campo cep possui valor informado.
-      if (cep != null&&cep != "") {
-        this.cepService.consultaCEP(cep)
-        .pipe(map(dados=>dados.json()))
-        .subscribe(dados=>this.populaDadosForm(dados))
-      }
-  };
+  //     //Verifica se campo cep possui valor informado.
+  //     if (cep != null&&cep != "") {
+  //       this.cepService.consultaCEP(cep)
+  //       .pipe(map(dados=>dados.json()))
+  //       .subscribe(dados=>this.populaDadosForm(dados))
+  //     }
+  // };
 
   populaDadosForm(dados){
     // formulario.setValue({
