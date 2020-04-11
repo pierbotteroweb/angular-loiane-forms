@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormControl, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { Http } from "@angular/http";
 import { DropdownService } from '../shared/services/dropdown.service';
 import { EstadoBr } from '../shared/models/estado-br';
@@ -7,6 +7,7 @@ import { ConsultaCepService } from '../shared/services/consulta-cep.service';
 import { Observable } from 'rxjs';
 import { of } from 'rxjs';
 import { map, switchMap, catchError, mergeMap } from 'rxjs/operators';
+import { FormValidations } from '../shared/form-validations';
 
 @Component({
   selector: 'app-data-form',
@@ -69,10 +70,27 @@ export class DataFormComponent implements OnInit {
     
   }
 
+  // requiredMinCheckbox(min=1){
+  //   let validator = (formArray: FormArray) =>{
+  //     // let values = formArray['controls']
+  //     // let totalChecked = 0
+  //     // for (let i=0;i<values.length;i++){
+  //     //   if(values[i].value){
+  //     //     totalChecked +=1
+  //     //   }
+  //     // }
+  //     let totalChecked = formArray['controls']
+  //     .map(v=>v.value)
+  //     .reduce((total,current)=> current?total+current:total,0)
+  //     return totalChecked >= min ? null : {required: true}
+  //   }
+  //   return validator
+  // }
+
   buildFrameworks(){
     
     let values = this.frameworks.map(v=> new FormControl(false))
-    return this.formBuilder.array(values)
+    return this.formBuilder.array(values,FormValidations.requiredMinCheckbox(1))
 
     // this.formBuilder.array( [
     //   new FormControl(false),
