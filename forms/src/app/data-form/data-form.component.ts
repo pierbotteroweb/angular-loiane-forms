@@ -8,6 +8,7 @@ import { Observable } from 'rxjs';
 import { of } from 'rxjs';
 import { map, switchMap, catchError, mergeMap } from 'rxjs/operators';
 import { FormValidations } from '../shared/form-validations';
+import { VerificaEmailService } from './services/verifica-email.service';
 
 @Component({
   selector: 'app-data-form',
@@ -26,9 +27,13 @@ export class DataFormComponent implements OnInit {
   constructor(private formBuilder: FormBuilder,
               private http: Http,
               private dropdownService: DropdownService,
-              private cepService: ConsultaCepService) { }
+              private cepService: ConsultaCepService,
+              private verificaEmailService: VerificaEmailService) { }
 
   ngOnInit() {
+
+    // this.verificaEmailService.verificarEmail('email@email.com')
+    // .subscribe()
 
     this.estados = this.dropdownService.getEstadosBr()
     this.cargos = this.dropdownService.getCargos()
@@ -51,7 +56,7 @@ export class DataFormComponent implements OnInit {
       nome: [null,Validators.required],
       // cpf: [null,[Validators.required,Validators.pattern("([0-9]{2}[\.]?[0-9]{3}[\.]?[0-9]{3}[\/]?[0-9]{4}[-]?[0-9]{2})|([0-9]{3}[\.]?[0-9]{3}[\.]?[0-9]{3}[-]?[0-9]{2})")]],
       cpf: [null,[Validators.required,FormValidations.cpfValidator]],
-      email: [null,[Validators.required,Validators.email]],
+      email: [null,[Validators.required,Validators.email],this.validarEmail.bind(this)],
       // confirmaemail: [null,[Validators.required,Validators.email]],
       confirmaemail: [null,[Validators.required,FormValidations.equalsTo('email')]],
       endereco: this.formBuilder.group({
@@ -264,6 +269,11 @@ export class DataFormComponent implements OnInit {
 
   setarTecnologias(){
     this.formulario.get('tecnologias').setValue(['java','javascript','ruby'])
+  }
+
+  validarEmail(formControl: FormControl){
+    return this.verificaEmailService.verificarEmail(formControl.value)
+    .pipe(map(emailExiste => emailExiste? { emailInvalido:true}:null))
   }
 
 }
