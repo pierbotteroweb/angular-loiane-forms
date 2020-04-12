@@ -10,15 +10,17 @@ import { map, switchMap, catchError, mergeMap, tap, distinctUntilChanged } from 
 import { FormValidations } from '../shared/form-validations';
 import { VerificaEmailService } from './services/verifica-email.service';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { BaseFormComponent } from '../shared/base-form/base-form.component';
 
 @Component({
   selector: 'app-data-form',
   templateUrl: './data-form.component.html',
   styleUrls: ['./data-form.component.scss']
 })
-export class DataFormComponent implements OnInit {
+export class DataFormComponent extends BaseFormComponent implements OnInit {
 
-  formulario: FormGroup
+  
+  // formulario: FormGroup
   estados: Observable <EstadoBr[]>
   cargos:any[]
   tecnologias: any[]
@@ -29,7 +31,9 @@ export class DataFormComponent implements OnInit {
               private http: Http,
               private dropdownService: DropdownService,
               private cepService: ConsultaCepService,
-              private verificaEmailService: VerificaEmailService) { }
+              private verificaEmailService: VerificaEmailService) {
+                super()
+               }
 
   ngOnInit() {
 
@@ -100,7 +104,7 @@ export class DataFormComponent implements OnInit {
         : empty()
       )
     )
-    .subscribe(dados => dados ? this.populaDadosForm(dados):{})
+    .subscribe(dados => dados ? this.populaDadosForm(JSON.parse(dados['_body'])):{})
 
     
   }
@@ -135,8 +139,8 @@ export class DataFormComponent implements OnInit {
     // ])
 
   }
-
-  onSubmit(){
+  
+  submit() {
     console.log("this.formulario",this.formulario)
 
     let valueSubmit = Object.assign({}, this.formulario.value);
@@ -148,75 +152,16 @@ export class DataFormComponent implements OnInit {
       .filter(v => v!==null)
     })
 
+    console.log(valueSubmit)
 
-
-    if(this.formulario.valid){        
-      this.http.post('https://httpbin.org/post', JSON.stringify(valueSubmit))
-      .pipe(map(dados=>dados))
-      .subscribe(dados=>{
-        console.log(dados)
-        this.resetar()
-      },e=>{
-        console.log(e)
-      })      
-    } else {
-      console.log("formuladio invalido")
-      this.verificaValidacoesForm(this.formulario)
-    }
-  }
-
-  verificaValidacoesForm(formGroup: FormGroup){    
-    Object.keys(formGroup.controls).forEach(campo=>{
-      console.log(campo)
-      let controle = formGroup.get(campo)
-      controle.markAsTouched()
-      if(controle instanceof FormGroup){
-        this.verificaValidacoesForm(controle)
-      }
-    })
-  }
-
-  resetar(){
-    this.formulario.reset()
-  }
-
-  verificaRequired(campo){
-    let campoRequerido = this.formulario.get(campo)
-    if(campoRequerido.errors&&campoRequerido.errors.required){
-      return campoRequerido.errors.required&&campoRequerido.touched
-    }
-  }
-
-  verificaEmailValido(){
-    let campoEmail = this.formulario.get('email')
-    if(campoEmail.errors){
-      // console.log("campoEmail.errors['email']",campoEmail.errors['email'])
-      return campoEmail.errors['email']&& campoEmail.touched
-    }
-  }
-
-  verificaCpfValido(){
-    let campoCpf = this.formulario.get('cpf')
-    if(campoCpf.errors){
-      // console.log("campoCpf.errors['cpf']",campoCpf.errors['cpf'])
-      return campoCpf.errors['pattern']&& campoCpf.touched
-    }
-  }
-
-  verificaChecked(){
-    let campoTermos = this.formulario.get('termos')
-    if(campoTermos.errors){
-      // console.log("campoTermos.errors['cpf']",campoTermos.errors['cpf'])
-      return campoTermos.errors['pattern']&& campoTermos.touched
-    }
-  }
-
-  verificaCepValido(){
-    let campoCep = this.formulario.get('endereco.cep')
-    if(campoCep.errors){
-      // console.log("campoCep.errors['cpf']",campoCep.errors['cpf'])
-      return campoCep.errors['pattern']&& campoCep.touched
-    }
+    this.http.post('https://httpbin.org/post', JSON.stringify(valueSubmit))
+    .pipe(map(dados=>dados))
+    .subscribe(dados=>{
+      console.log(dados)
+      this.resetar()
+    },e=>{
+      console.log(e)
+    })      
   }
 
 
@@ -249,6 +194,8 @@ export class DataFormComponent implements OnInit {
     //     }
     // })
 
+    console.log(dados)
+
     this.formulario.patchValue({
       endereco: {
         rua: dados.logradouro,
@@ -274,13 +221,6 @@ export class DataFormComponent implements OnInit {
         estado: null
       }
     })
-  }
-
-  aplicaCssErro(campo){
-    return {
-      'has-error':this.verificaRequired(campo),
-      'has-feedback':this.verificaRequired(campo)
-    }
   }
 
   setarCargo(){
