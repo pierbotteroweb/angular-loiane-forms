@@ -1,13 +1,16 @@
 <form class="form-horizontal" [formGroup]="formulario" (ngSubmit)='onSubmit()' autocomplete="off">
 
+  <app-input-field [classeCss]="aplicaCssErro('nome')"
+  formControlName="nome"
+  id="nome" label="Nome" [control]="formulario.get('nome')" 
+  placeholder="Nome"
+  ></app-input-field>
 
-  <div class="form-group" [ngClass]="aplicaCssErro('nome')">
 
-
+  <!-- <div class="form-group" [ngClass]="aplicaCssErro('nome')">
     <div class="col-sm-12">
       <label class="control-label" for="nome">Nome</label>
     </div>
-
     <div class="col-sm-12">
       <input type="text" class="form-control" id="nome" 
       autocomplete="off"
@@ -15,7 +18,7 @@
       <app-error-msg [control]="formulario.get('nome')" label="Nome"
       ></app-error-msg>
     </div>
-  </div>
+  </div> -->
 
   <div class="form-group">
     <div class="col-sm-6">

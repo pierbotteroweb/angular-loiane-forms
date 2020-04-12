@@ -75,8 +75,8 @@ export class TemplateFormComponent implements OnInit {
     
     if (cep != null&&cep != "") {
       this.cepService.consultaCEP(cep)
-      .pipe(map(dados=>dados.json()))
-      .subscribe(dados=>this.populaDadosForm(dados, formulario))
+      // .pipe(map(dados=>dados.json()))
+      // .subscribe(dados=>this.populaDadosForm(dados, formulario))
     }
 };
 
