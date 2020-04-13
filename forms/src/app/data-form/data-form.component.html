@@ -118,23 +118,41 @@
         <app-campo-control-erro [mostrarErro]="verificaRequired('endereco.bairro')" 
         msgErro="Bairro é obrigatório."></app-campo-control-erro>
       </div>
-      <div class="col-md-4">
+
+      <!-- <div class="col-md-4">
         <label for="cidade" class="control-label">Cidade</label>
         <input formControlName="cidade" class="form-control" 
         autocomplete="nocomplete">
         <app-campo-control-erro [mostrarErro]="verificaRequired('endereco.cidade')" 
         msgErro="Cidade é obrigatório."></app-campo-control-erro>
+      </div> -->
+
+
+      <div class="col-md-4">
+        <label for="estado" class="control-label">Cidade</label>
+        <select formControlName="cidade" class="form-control" 
+        autocomplete="nocomplete">
+        <option *ngFor="let cidade of cidades" [value]="cidade.nome" >{{cidade.nome}}</option>
+      
+      </select>
+        <app-campo-control-erro [mostrarErro]="verificaRequired('endereco.cidade')" 
+        msgErro="Cidade é obrigatório."></app-campo-control-erro>
       </div>
+
+
       <div class="col-md-3">
         <label for="estado" class="control-label">Estado</label>
         <select formControlName="estado" class="form-control" 
         autocomplete="nocomplete">
-        <option *ngFor="let estado of estados | async" [value]="estado.sigla" >{{estado.nome}}</option>
+        <option *ngFor="let estado of estados" [value]="estado.sigla" >{{estado.nome}}</option>
       
       </select>
         <app-campo-control-erro [mostrarErro]="verificaRequired('endereco.estado')" 
         msgErro="Estado é obrigatório."></app-campo-control-erro>
       </div>
+
+
+
     </div>
   </div>
 

@@ -11,6 +11,7 @@ import { FormValidations } from '../shared/form-validations';
 import { VerificaEmailService } from './services/verifica-email.service';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { BaseFormComponent } from '../shared/base-form/base-form.component';
+import { Cidade } from '../shared/models/cidade';
 
 @Component({
   selector: 'app-data-form',
@@ -21,7 +22,9 @@ export class DataFormComponent extends BaseFormComponent implements OnInit {
 
   
   // formulario: FormGroup
-  estados: Observable <EstadoBr[]>
+  estados: EstadoBr[]
+  cidades: Cidade[]
+  // estados: Observable <EstadoBr[]>
   cargos:any[]
   tecnologias: any[]
   newsletterOp: any[]
@@ -40,7 +43,11 @@ export class DataFormComponent extends BaseFormComponent implements OnInit {
     // this.verificaEmailService.verificarEmail('email@email.com')
     // .subscribe()
 
-    this.estados = this.dropdownService.getEstadosBr()
+    // this.estados = this.dropdownService.getEstadosBr()
+    this.dropdownService.getEstadosBr()
+    .subscribe(dados => this.estados = dados)
+
+
     this.cargos = this.dropdownService.getCargos()
     this.tecnologias = this.dropdownService.getTecnologias()
     this.newsletterOp = this.dropdownService.getNewsletter()
@@ -105,7 +112,16 @@ export class DataFormComponent extends BaseFormComponent implements OnInit {
       )
     )
     .subscribe(dados => dados ? this.populaDadosForm(JSON.parse(dados['_body'])):{})
-
+    
+    this.formulario.get('endereco.estado').valueChanges
+    .pipe(
+      tap(estado => console.log('novo estado: ',estado)),
+      map(estado => this.estados.filter(e=>e.sigla==estado)),
+      map(estados => estados && estados.length > 0? estados[0].id:empty()),
+      switchMap((estadoId: any) => this.dropdownService.getCidades(estadoId)),
+      tap(console.log)
+    )
+    .subscribe(cidades => this.cidades = cidades)
     
   }
 
